@@ -1,0 +1,32 @@
+public class PalindromeChecker {
+    
+    public boolean checkPalindrome(String input) {
+        if (input == null) return false;
+        
+        String clean = normalize(input);
+        return isBalanced(clean);
+    }
+
+    private String normalize(String s) {
+        return s.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+    }
+
+    private boolean isBalanced(String s) {
+        int left = 0;
+        int right = s.length() - 1;
+
+        while (left < right) {
+            if (s.charAt(left) != s.charAt(right)) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        PalindromeChecker checker = new PalindromeChecker();
+        System.out.println(checker.checkPalindrome("No 'x' in Nixon"));
+    }
+}
