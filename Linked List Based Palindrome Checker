@@ -1,0 +1,65 @@
+class Node {
+    char data;
+    Node next;
+    Node(char data) { this.data = data; }
+}
+
+public class LinkedListPalindrome {
+    public static void main(String[] args) {
+        String input = "racecar";
+        Node head = convertToLinkedList(input);
+
+        if (isPalindrome(head)) {
+            System.out.println(input + " is a palindrome.");
+        } else {
+            System.out.println(input + " is not a palindrome.");
+        }
+    }
+
+    public static boolean isPalindrome(Node head) {
+        if (head == null || head.next == null) return true;
+
+        // 1. Find middle using Fast and Slow Pointer
+        Node slow = head;
+        Node fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        // 2. Reverse second half In-Place
+        Node secondHalf = reverse(slow);
+        Node firstHalf = head;
+
+        // 3. Compare halves
+        Node temp = secondHalf;
+        while (temp != null) {
+            if (firstHalf.data != temp.data) return false;
+            firstHalf = firstHalf.next;
+            temp = temp.next;
+        }
+        return true;
+    }
+
+    private static Node reverse(Node head) {
+        Node prev = null;
+        Node current = head;
+        while (current != null) {
+            Node nextNode = current.next;
+            current.next = prev;
+            prev = current;
+            current = nextNode;
+        }
+        return prev;
+    }
+
+    private static Node convertToLinkedList(String s) {
+        Node dummy = new Node(' ');
+        Node current = dummy;
+        for (char c : s.toCharArray()) {
+            current.next = new Node(c);
+            current = current.next;
+        }
+        return dummy.next;
+    }
+}
