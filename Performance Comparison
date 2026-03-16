@@ -1,0 +1,32 @@
+public class PalindromeBenchmark {
+    public static void main(String[] args) {
+        String testString = "a".repeat(10000) + "b" + "a".repeat(10000); // Large non-palindrome
+
+        // Test 1: Simple Reverse
+        long start1 = System.nanoTime();
+        checkByReversing(testString);
+        long end1 = System.nanoTime();
+
+        // Test 2: Two-Pointer (Optimized)
+        long start2 = System.nanoTime();
+        checkByTwoPointers(testString);
+        long end2 = System.nanoTime();
+
+        System.out.println("Reverse Loop: " + (end1 - start1) + " ns");
+        System.out.println("Two-Pointer:  " + (end2 - start2) + " ns");
+    }
+
+    public static boolean checkByReversing(String s) {
+        String res = "";
+        for (int i = s.length() - 1; i >= 0; i--) res += s.charAt(i);
+        return s.equals(res);
+    }
+
+    public static boolean checkByTwoPointers(String s) {
+        int l = 0, r = s.length() - 1;
+        while (l < r) {
+            if (s.charAt(l++) != s.charAt(r--)) return false;
+        }
+        return true;
+    }
+}
