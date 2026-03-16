@@ -1,0 +1,22 @@
+public class RecursivePalindrome {
+    public static void main(String[] args) {
+        String input = "racecar";
+        boolean result = isPalindrome(input);
+        System.out.println("Is \"" + input + "\" a palindrome? " + result);
+    }
+
+    public static boolean isPalindrome(String s) {
+        // 1. Base Condition
+        if (s.length() <= 1) {
+            return true;
+        }
+
+        // 2. Recursive Step
+        if (s.charAt(0) == s.charAt(s.length() - 1)) {
+            // Cut out the first and last characters and call again
+            return isPalindrome(s.substring(1, s.length() - 1));
+        }
+
+        return false;
+    }
+}
