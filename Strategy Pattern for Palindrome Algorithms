@@ -1,0 +1,50 @@
+import java.util.*;
+
+interface PalindromeStrategy {
+    boolean isValid(String input);
+}
+
+class StackStrategy implements PalindromeStrategy {
+    public boolean isValid(String input) {
+        Stack<Character> stack = new Stack<>();
+        for (char c : input.toCharArray()) stack.push(c);
+        StringBuilder reversed = new StringBuilder();
+        while (!stack.isEmpty()) reversed.append(stack.pop());
+        return input.equals(reversed.toString());
+    }
+}
+
+class DequeStrategy implements PalindromeStrategy {
+    public boolean isValid(String input) {
+        Deque<Character> deque = new ArrayDeque<>();
+        for (char c : input.toCharArray()) deque.addLast(c);
+        while (deque.size() > 1) {
+            if (!deque.removeFirst().equals(deque.removeLast())) return false;
+        }
+        return true;
+    }
+}
+
+public class PalindromeSystem {
+    private PalindromeStrategy strategy;
+
+    public void setStrategy(PalindromeStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public boolean check(String text) {
+        if (text == null || strategy == null) return false;
+        String clean = text.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+        return strategy.isValid(clean);
+    }
+
+    public static void main(String[] args) {
+        PalindromeSystem system = new PalindromeSystem();
+        
+        system.setStrategy(new StackStrategy());
+        System.out.println(system.check("Racecar"));
+
+        system.setStrategy(new DequeStrategy());
+        System.out.println(system.check("A man, a plan, a canal: Panama"));
+    }
+}
