@@ -1,0 +1,30 @@
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
+
+public class FIFOvsLIFO {
+    public static void main(String[] args) {
+        String input = "racecar";
+        
+        Stack<Character> stack = new Stack<>();
+        Queue<Character> queue = new LinkedList<>(); // Queue is an interface in Java
+
+        // 1. Load both structures
+        for (char c : input.toCharArray()) {
+            stack.push(c);    // LIFO
+            queue.add(c);     // FIFO (Enqueue)
+        }
+
+        boolean isPalindrome = true;
+
+        // 2. Compare Dequeue vs Pop
+        while (!stack.isEmpty()) {
+            if (!stack.pop().equals(queue.remove())) { // remove() is Dequeue
+                isPalindrome = false;
+                break;
+            }
+        }
+
+        System.out.println("Is palindrome: " + isPalindrome);
+    }
+}
